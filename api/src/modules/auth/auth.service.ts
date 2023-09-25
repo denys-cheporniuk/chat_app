@@ -11,8 +11,8 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from "@/modules/prisma/prisma.service";
 import { UserService } from "@/modules/user/user.service";
 import { User } from "@/modules/user/user.type";
-import {LoginDto, RegisterDto} from "@/modules/auth/dto";
-import {AuthErrors, TOKEN_EXPIRES_IN} from "@/modules/auth/auth.constants";
+import { LoginDto, RegisterDto } from "@/modules/auth/dto";
+import { AuthErrors, TOKEN_EXPIRES_IN } from "@/modules/auth/auth.constants";
 
 
 @Injectable()
@@ -41,7 +41,11 @@ export class AuthService {
       throw new UnauthorizedException(AuthErrors.InvalidOrExpiredRefreshToken);
     }
 
-    const user = await this.userService.getUserById(payload.sub);
+    const user = await this.userService.findUserById(payload.sub);
+
+    if (!user) {
+      throw new BadRequestException(AuthErrors.UserNotFound);
+    }
 
     const expiresIn = TOKEN_EXPIRES_IN;
     const expiration = Math.floor(Date.now() / 1000) + expiresIn;

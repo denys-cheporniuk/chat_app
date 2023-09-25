@@ -1,7 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from "@/modules/user/user.type";
 import { PrismaService } from "@/modules/prisma/prisma.service";
-import { UserErrors} from "@/modules/user/user.constants";
 
 @Injectable()
 export class UserService {
@@ -9,18 +8,12 @@ export class UserService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async getUserById(id: number): Promise<User> {
-    const user = await this.prismaService.user.findUnique({
+  async findUserById(id: number): Promise<User> {
+    return this.prismaService.user.findUnique({
       where: {
         id,
       }
     });
-
-    if (!user) {
-      throw new BadRequestException(UserErrors.NotFound);
-    }
-
-    return user;
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
@@ -39,5 +32,21 @@ export class UserService {
         ...values,
       }
     })
+  }
+
+  async updateUser(
+    userId: number,
+    values: Partial<Omit<User, 'id' >>,
+  ): Promise<User> {
+    const user = await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        ...values,
+      }
+    })
+
+    return user;
   }
 }
