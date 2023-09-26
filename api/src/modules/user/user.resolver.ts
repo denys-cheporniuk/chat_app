@@ -15,7 +15,7 @@ export class UserResolver {
   ) {}
 
   @UseGuards(GraphqlAuthGuard)
-  @Mutation(() => User)
+  @Mutation(() => String)
   async updateUser(
     @Args('fullname') fullname: string,
     @Args('file', { type: () => GraphQLUpload, nullable: true })

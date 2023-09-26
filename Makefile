@@ -1,8 +1,11 @@
+db-up:
+	docker compose -f ./compose-files/docker-compose.db.yml up
+
 api-up:
 	npm --prefix ./api run start:dev
 
-db-up:
-	docker compose -f ./compose-files/docker-compose.db.yml up
+frontend-up:
+	npm --prefix ./frontend run dev
 
 stop-containers:
 	docker stop $$(docker ps -a -q)

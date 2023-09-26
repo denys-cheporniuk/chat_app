@@ -1,9 +1,10 @@
-import {Mutation, Query, Resolver, Args, Context} from '@nestjs/graphql';
-import {LoginDto, RegisterDto} from "@/modules/auth/dto";
-import {Request, Response} from "express";
-import {BadRequestException} from "@nestjs/common";
-import {AuthErrors} from "@/modules/auth/auth.constants";
-import {AuthService} from "@/modules/auth/auth.service";
+import { Mutation, Resolver, Args, Context} from '@nestjs/graphql';
+import { LoginDto, RegisterDto } from "@/modules/auth/dto";
+import { Request, Response } from "express";
+import { BadRequestException } from "@nestjs/common";
+import { AuthErrors } from "@/modules/auth/auth.constants";
+import { AuthService } from "@/modules/auth/auth.service";
+import { User } from "@/modules/user/user.type";
 
 @Resolver()
 export class AuthResolver {
